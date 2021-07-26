@@ -1,15 +1,19 @@
 import { Switch, Route } from "react-router-dom";
 import Adder from "../Adder/Adder";
 import Creator from "../Creator/Creator";
+import Home from "../Home/Home";
 import Matches from "../Matches/Matches";
 import Test from "../Test/Test";
 import Tournament from "../Tournament/Tournament";
+import { Link } from "react-router-dom";
 import m from "./app.module.sass";
 
 function App() {
   return (
     <div className={m.app}>
-      <header>Nav bar</header>
+      <header>
+        <Link to="/">Home</Link>
+      </header>
       <Switch>
         <Route path="/tournament" component={Tournament} />
         <Route path="/create" component={Creator} />
@@ -19,11 +23,9 @@ function App() {
         <Route path="/games">
           <p>GAMES ROUTE</p>
         </Route>
-        <Route path="/" exact>
-          <div>HOME ROUTE</div>
-        </Route>
+        <Route path="/" component={Home} exact />
       </Switch>
-      <footer>footer footer footer</footer>
+      <footer>footer</footer>
     </div>
   );
 }
