@@ -18,7 +18,7 @@ export default function Participants({ tournamentURL }) {
           return <li key={participant.id}>{participant.attributes.name}</li>;
         })}
         {isAdd && (
-          <Link to="/add-participant/asjldjfasdf">add participant</Link>
+          <Link to={`/add-participant/${tournamentURL}`}>add participant</Link>
         )}
         <button disabled={!isReady}>start tournament</button>
       </ul>

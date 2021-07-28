@@ -1,9 +1,21 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import useAdd from "./useCreate";
 export default function Creator() {
+  const [name, setName] = useState("");
+  const { isLoading, handleSubmit } = useAdd(name);
+
+  function handleNameChange(e) {
+    setName(e.target.value);
+  }
+
   return (
     <div>
-      <p>This form creates a tournament</p>
-      <button>submit</button>
+      <p>This will be the form for adding participant</p>
+      <form onSubmit={handleSubmit}>
+        <input placeholder="Name" value={name} onChange={handleNameChange} />
+        <button>{isLoading ? "---" : "submit"}</button>
+      </form>
       <Link to="/tournament">cancel</Link>
     </div>
   );
