@@ -10,16 +10,35 @@ export default function Tournament() {
   console.log(isLoading, tournament);
 
   if (isLoading) {
-    return <div>..loading..</div>;
+    return (
+      <div className={m.tournament}>
+        <div className={m.loader}>..loading..</div>
+      </div>
+    );
+  }
+
+  if (!isLoading && !tournament) {
+    return (
+      <div className={m.tournament}>
+        <Link to="/create" className={m.creator}>
+          create tournament
+        </Link>
+      </div>
+    );
   }
 
   return (
     <div className={m.tournament}>
-      <p>This is the tournaments page</p>
+      <div className={m.info}>
+        <p className={m.title}>{tournament.attributes.name}</p>
+        <p className={m.desc}>about this tournament</p>
+      </div>
+
       <Participants tournamentURL={tournament.id} />
-      <Link to="/create">create tournament</Link>
-    
-      <Link to="/matches/99ggasdfas">Show matches</Link>
+
+      <div className={m.links}>
+        <Link to="/matches/99ggasdfas">Go to matches</Link>
+      </div>
     </div>
   );
 }

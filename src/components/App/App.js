@@ -11,8 +11,10 @@ import m from "./app.module.sass";
 function App() {
   return (
     <div className={m.app}>
-      <header>
-        <Link to="/">Home</Link>
+      <header className={m.header}>
+        <Link to="/" className={m.home}>
+          Home
+        </Link>
       </header>
       <Switch>
         <Route path="/tournament" component={Tournament} />
@@ -25,7 +27,9 @@ function App() {
         </Route>
         <Route path="/" component={Home} exact />
       </Switch>
-      <footer>footer</footer>
+      <footer className={m.footer}>
+        Copyright © 2021 Tourney. All rights reserved
+      </footer>
     </div>
   );
 }

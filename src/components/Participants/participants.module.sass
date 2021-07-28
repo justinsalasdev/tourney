@@ -1,0 +1,28 @@
+.participants
+  display: grid
+  grid-template-rows: 1fr auto
+  background: white
+
+.list
+  list-style: none
+
+.item
+  list-style: none
+  padding: .5rem
+
+.actions
+  padding: 1rem
+
+  & > a
+    padding: .5rem
+    margin-right: 2rem
+
+  & > button
+    color: white
+    padding: .5rem 1.5rem
+    font-size: 1.4rem
+    background: #035397
+    border-radius: 10rem
+
+    &:disabled
+      background: lighten(black,60%)
