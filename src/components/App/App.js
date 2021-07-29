@@ -21,7 +21,7 @@ function App() {
         <Route path="/create" component={Creator} />
         <Route path="/add-participant/:url" component={Adder} />
         <Route path="/matches/:url" component={Matches} />
-        <Route path="/others" component={Test} />
+        <Route path="/test" component={Test} />
         <Route path="/games">
           <p>GAMES ROUTE</p>
         </Route>

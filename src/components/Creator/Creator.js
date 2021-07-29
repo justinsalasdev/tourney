@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import useAdd from "./useCreate";
+import useCreate from "./useCreate";
 export default function Creator() {
   const [name, setName] = useState("");
-  const { isLoading, handleSubmit } = useAdd(name);
+
+  const { isLoading, handleSubmit } = useCreate(name);
 
   function handleNameChange(e) {
     setName(e.target.value);

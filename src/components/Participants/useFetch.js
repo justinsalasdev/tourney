@@ -51,3 +51,30 @@ function reducer(state, action) {
     }
   }
 }
+
+/*
+
+
+
+
+
+  
+
+  myReducer(state,action){
+    switch(action.id){
+      case 'increment' : state ++ 
+      case 'decrement' : state  = state + action.data
+
+    }
+  }
+
+  const [state, dispatch] = useReducer(myReducer, {  --> reducer, initialState
+    state: 0
+    other state
+  })
+
+  dispatch({id: 'increment', data: 5})
+
+
+
+ */

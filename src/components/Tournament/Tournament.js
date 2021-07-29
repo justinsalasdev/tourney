@@ -4,7 +4,10 @@ import useFetch from "./useFetch";
 import Participants from "../Participants/Participants";
 
 export default function Tournament() {
+
   const { isLoading, tournament } = useFetch();
+
+  
   //get tournaments data
   //tournament URL
   console.log(isLoading, tournament);
@@ -37,7 +40,7 @@ export default function Tournament() {
       <Participants tournamentURL={tournament.id} />
 
       <div className={m.links}>
-        <Link to="/matches/99ggasdfas">Go to matches</Link>
+        <Link to={`/matches/${tournament.id}`}>Go to matches</Link>
       </div>
     </div>
   );
