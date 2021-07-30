@@ -3,7 +3,6 @@ import Match from "../Match/Match";
 import m from "./matches.module.sass";
 import useFetch from "./useFetch";
 
-
 export default function Matches(props) {
   const tournamentURL = props.match.params.url;
   const {
@@ -14,7 +13,8 @@ export default function Matches(props) {
     isLoading,
     participantDetails,
     grandChamp,
-    firstRunnerUp
+    firstRunnerUp,
+    setFlag,
   } = useFetch(tournamentURL);
   //useWIn(tournamentURL)
 
@@ -23,6 +23,13 @@ export default function Matches(props) {
   if (isLoading) {
     return <div>...loading...</div>;
   }
+
+  const matchProps = {
+    participantDetails,
+    tournamentURL,
+    setFlag,
+  };
+
   return (
     <div className={m.matchesContainer}>
       {!isLoading && roundNumber === 1 && (
@@ -31,11 +38,7 @@ export default function Matches(props) {
             <div className={m.roundDisplayContainer}>
               <p>GRAND FINALS</p>
               {firstRound.map((match) => (
-                <Match
-                match={match}
-                participantDetails={participantDetails}
-                tournamentURL={tournamentURL}
-              />
+                <Match match={match} {...matchProps} />
               ))}
             </div>
           }
@@ -48,26 +51,17 @@ export default function Matches(props) {
             <div className={m.roundDisplayContainer}>
               <p>SEMI FINALS</p>
               {firstRound.map((match) => {
-                const matchWinner = match.attributes?.winner || "none"
-                console.log("match winner", matchWinner)
-                return (<Match
-                  match={match}
-                  participantDetails={participantDetails}
-                  tournamentURL={tournamentURL}
-                />)
-            })}
-              
+                const matchWinner = match.attributes?.winner || "none";
+                console.log("match winner", matchWinner);
+                return <Match match={match} {...matchProps} />;
+              })}
             </div>
           }
           {
             <div className={m.roundDisplayContainer}>
               <p>GRAND FINALS</p>
               {secondRound.map((match) => (
-                <Match
-                match={match}
-                participantDetails={participantDetails}
-                tournamentURL={tournamentURL}
-              />
+                <Match match={match} {...matchProps} />
               ))}
             </div>
           }
@@ -78,28 +72,20 @@ export default function Matches(props) {
         <div className={m.main_roundsContainer}>
           <div className={m.roundsContainer}>
             {
-              <div className={m.roundDisplayContainer} >
+              <div className={m.roundDisplayContainer}>
                 <p>ELIMINATION</p>
                 {firstRound.map((match) => {
                   // let matchWinner = match.attributes?.winners || "none"
                   // console.log(matchWinner)
-                  return (<Match
-                    match={match}
-                    participantDetails={participantDetails}
-                    tournamentURL={tournamentURL}
-                  />)
+                  return <Match match={match} {...matchProps} />;
                 })}
               </div>
             }
             {
-              <div className={m.roundDisplayContainer} >
+              <div className={m.roundDisplayContainer}>
                 <p>SEMI FINALS</p>
                 {secondRound.map((match) => (
-                  <Match
-                    match={match}
-                    participantDetails={participantDetails}
-                    tournamentURL={tournamentURL}
-                  />
+                  <Match match={match} {...matchProps} />
                 ))}
               </div>
             }
@@ -107,39 +93,28 @@ export default function Matches(props) {
               <div className={m.roundDisplayContainer}>
                 <p>GRAND FINALS</p>
                 {thirdRound.map((match) => (
-                  <Match
-                    match={match}
-                    participantDetails={participantDetails}
-                    tournamentURL={tournamentURL}
-                  />
+                  <Match match={match} {...matchProps} />
                 ))}
               </div>
             }
           </div>
-          {
-            
-          } 
+          {}
           <div className={m.winnerContainer}>
-            <div className={m.champion}>
-            </div>
+            <div className={m.champion}></div>
             <>
               <h2>{grandChamp.toUpperCase()}</h2>
               <p>Grand Champion</p>
             </>
 
-            <div className={m.firstRunnerUp}>
-            </div>
+            <div className={m.firstRunnerUp}></div>
             <>
               <h3>{firstRunnerUp}</h3>
               <p>First Runner Up </p>
             </>
           </div>
-
         </div>
       )}
-      {
-        
-      }
+      {}
 
       <Link to="/tournament"> back to tournament</Link>
     </div>

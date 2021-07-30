@@ -2,7 +2,7 @@ import { useReducer } from "react";
 import { useHistory } from "react-router-dom";
 import uniqid from "uniqid";
 
-export default function useCreate(tournamentName) {
+export default function useCreate(tournamentName, description) {
   const history = useHistory();
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
@@ -23,6 +23,7 @@ export default function useCreate(tournamentName) {
         type: "Tournaments",
         attributes: {
           name: tournamentName,
+          description,
           url: uniqid(),
           tournament_type: "single elimination",
         },
@@ -32,7 +33,7 @@ export default function useCreate(tournamentName) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!tournamentName) {
+    if (!tournamentName || !description) {
       return;
     }
     try {

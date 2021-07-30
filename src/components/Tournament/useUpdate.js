@@ -1,15 +1,16 @@
 import { useReducer } from "react";
-import uniqid from "uniqid";
+import { useHistory } from "react-router-dom";
 
-export default function useWin(tournamentURL, setFlag) {
+export default function useUpdate(tournamentURL) {
+  const history = useHistory();
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     error: null,
   });
 
-  const handleWin = (winId, loseId, matchId) => async (e) => {
+  const handleUpdate = (updateType) => async (e) => {
     e.preventDefault();
-    const endPoint = `https://api.challonge.com/v2/tournaments/${tournamentURL}/matches/${matchId}.json`;
+    const endPoint = `https://api.challonge.com/v2/tournaments/${tournamentURL}/change_state.json`;
     const options = {
       method: "PUT",
       headers: {
@@ -20,19 +21,9 @@ export default function useWin(tournamentURL, setFlag) {
       },
       body: JSON.stringify({
         data: {
-          type: "Match",
+          type: "Tournaments",
           attributes: {
-            match: [
-              {
-                participant_id: winId,
-                score_set: "1-0",
-                advancing: true,
-              },
-              {
-                participant_id: loseId,
-                score_set: "0-1",
-              },
-            ],
+            state: updateType,
           },
         },
       }),
@@ -44,15 +35,17 @@ export default function useWin(tournamentURL, setFlag) {
       const jsonData = await res.json();
       console.log(jsonData);
       dispatch({ type: "done" });
-      setFlag(uniqid());
+      if (updateType === "start") {
+        history.push(`/matches/${tournamentURL}`);
+      }
     } catch (err) {
       console.log(err);
-      dispatch({ type: "error", payload: "failed to update match" });
+      dispatch({ type: "error", payload: "failed to update tournament" });
     }
   };
   return {
-    handleWin,
-    isWinLoading: state.isLoading,
+    handleUpdate,
+    isUpdateLoading: state.isLoading,
     error: state.error,
   };
 }
@@ -66,7 +59,7 @@ function reducer(state, action) {
     case "error":
       return { ...state, isLoading: false, error: action.payload };
     default: {
-      console.log("no such win action");
+      console.log("no such tournament action");
       return state;
     }
   }

@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import m from "./tournament.module.sass";
 import useFetch from "./useFetch";
 import Participants from "../Participants/Participants";
+import useUpdate from "./useUpdate";
 
 export default function Tournament() {
-
   const { isLoading, tournament } = useFetch();
+  const { isUpdateLoading, handleUpdate } = useUpdate(tournament?.id);
 
-  
   //get tournaments data
   //tournament URL
   console.log(isLoading, tournament);
@@ -37,10 +37,15 @@ export default function Tournament() {
         <p className={m.desc}>about this tournament</p>
       </div>
 
-      <Participants tournamentURL={tournament.id} />
+      <Participants tournamentURL={tournament.id} handleUpdate={handleUpdate} />
 
       <div className={m.links}>
+        <button onClick={handleUpdate("finalize")}>Finalize</button>
+        <button onClick={handleUpdate("reset")}>Reset</button>
         <Link to={`/matches/${tournament.id}`}>Go to matches</Link>
+        <Link to="/create" className={m.creator}>
+          New tournament
+        </Link>
       </div>
     </div>
   );

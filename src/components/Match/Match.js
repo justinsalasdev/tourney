@@ -4,9 +4,10 @@ import useWin from "./useWin";
 export default function Match({
   match,
   participantDetails,
-  tournamentURL
+  tournamentURL,
+  setFlag,
 }) {
-  const { handleWin, isWinLoading } = useWin(tournamentURL);
+  const { handleWin, isWinLoading } = useWin(tournamentURL, setFlag);
   const winnerId = match.attributes?.winners || "none";
   const player1Id = match.relationships?.player1?.data?.id || "unknown";
   const player2Id = match.relationships?.player2?.data?.id || "unknown";
@@ -17,7 +18,7 @@ export default function Match({
 
   return (
     <div className={m.match} key={match.id}>
-      <p>Match {match.attributes.identifier}</p> 
+      <p>Match {match.attributes.identifier}</p>
       {/* <hr /> */}
       <div className={`${m.player} ${isOneWon ? m.winner : m.loser}`}>
         {participantDetails[player1Id]}
@@ -25,7 +26,7 @@ export default function Match({
           {isWinLoading ? "**" : "win"}
         </button>
       </div>
-        <div className={`${m.player} ${isTwoWon ? m.winner : m.loser}`}>
+      <div className={`${m.player} ${isTwoWon ? m.winner : m.loser}`}>
         {participantDetails[player2Id]}
         <button onClick={handleWin(player2Id, player1Id, match.id)}>
           {isWinLoading ? "**" : "win"}

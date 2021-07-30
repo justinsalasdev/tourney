@@ -2,7 +2,7 @@ import useFetch from "./useFetch";
 import { Link } from "react-router-dom";
 import m from "./participants.module.sass";
 
-export default function Participants({ tournamentURL }) {
+export default function Participants({ tournamentURL, handleUpdate }) {
   const { participants, isLoading } = useFetch(tournamentURL);
 
   const isAdd = participants.length < 8;
@@ -27,7 +27,9 @@ export default function Participants({ tournamentURL }) {
         {isAdd && (
           <Link to={`/add-participant/${tournamentURL}`}>add participant</Link>
         )}
-        <button disabled={!isReady}>start tournament</button>
+        <button disabled={!isReady} onClick={handleUpdate("start")}>
+          start tournament
+        </button>
       </div>
     </div>
   );
