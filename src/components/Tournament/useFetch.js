@@ -1,6 +1,7 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 
 export default function useFetch() {
+  const [flag, setFlag] = useState();
   const [state, dispatch] = useReducer(reducer, {
     isLoading: true,
     tournament: null,
@@ -29,12 +30,13 @@ export default function useFetch() {
       }
     })();
     // eslint-disable-next-line
-  }, []);
+  }, [flag]);
 
   return {
     isLoading: state.isLoading,
     tournament: state.tournament,
     error: state.error,
+    setFlag,
   };
 }
 

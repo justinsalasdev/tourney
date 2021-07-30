@@ -2,7 +2,11 @@ import useFetch from "./useFetch";
 import { Link } from "react-router-dom";
 import m from "./participants.module.sass";
 
-export default function Participants({ tournamentURL, handleUpdate }) {
+export default function Participants({
+  tournamentURL,
+  handleUpdate,
+  tournamentState,
+}) {
   const { participants, isLoading } = useFetch(tournamentURL);
 
   const isAdd = participants.length < 8;
@@ -24,10 +28,13 @@ export default function Participants({ tournamentURL, handleUpdate }) {
         })}
       </ul>
       <div className={m.actions}>
-        {isAdd && (
+        {(isAdd || tournamentState === "pending") && (
           <Link to={`/add-participant/${tournamentURL}`}>add participant</Link>
         )}
-        <button disabled={!isReady} onClick={handleUpdate("start")}>
+        <button
+          disabled={!isReady || tournamentState !== "pending"}
+          onClick={handleUpdate("start")}
+        >
           start tournament
         </button>
       </div>

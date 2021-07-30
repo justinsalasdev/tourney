@@ -5,8 +5,8 @@ import Participants from "../Participants/Participants";
 import useUpdate from "./useUpdate";
 
 export default function Tournament() {
-  const { isLoading, tournament } = useFetch();
-  const { isUpdateLoading, handleUpdate } = useUpdate(tournament?.id);
+  const { isLoading, tournament, setFlag } = useFetch();
+  const { isUpdateLoading, handleUpdate } = useUpdate(tournament?.id, setFlag);
 
   //get tournaments data
   //tournament URL
@@ -34,15 +34,32 @@ export default function Tournament() {
     <div className={m.tournament}>
       <div className={m.info}>
         <p className={m.title}>{tournament.attributes.name}</p>
-        <p className={m.desc}>about this tournament</p>
+        <p className={m.desc}>{tournament.attributes.description}</p>
+        <p className={m.status}>{tournament.attributes.state}</p>
       </div>
 
-      <Participants tournamentURL={tournament.id} handleUpdate={handleUpdate} />
+      <Participants
+        tournamentURL={tournament.id}
+        handleUpdate={handleUpdate}
+        tournamentState={tournament.attributes.state}
+      />
 
       <div className={m.links}>
-        <button onClick={handleUpdate("finalize")}>Finalize</button>
-        <button onClick={handleUpdate("reset")}>Reset</button>
-        <Link to={`/matches/${tournament.id}`}>Go to matches</Link>
+        <button
+          onClick={handleUpdate("finalize")}
+          disabled={tournament.attributes.state !== "awaiting_review"}
+        >
+          Finalize
+        </button>
+        <button
+          onClick={handleUpdate("reset")}
+          disabled={tournament.attributes.state === "awaiting_review"}
+        >
+          Reset
+        </button>
+        {tournament.attributes.state !== "pending" && (
+          <Link to={`/matches/${tournament.id}`}>Go to matches</Link>
+        )}
         <Link to="/create" className={m.creator}>
           New tournament
         </Link>

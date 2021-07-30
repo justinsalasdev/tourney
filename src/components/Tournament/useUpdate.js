@@ -1,7 +1,8 @@
 import { useReducer } from "react";
 import { useHistory } from "react-router-dom";
+import uniqid from "uniqid";
 
-export default function useUpdate(tournamentURL) {
+export default function useUpdate(tournamentURL, setFlag) {
   const history = useHistory();
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
@@ -37,6 +38,8 @@ export default function useUpdate(tournamentURL) {
       dispatch({ type: "done" });
       if (updateType === "start") {
         history.push(`/matches/${tournamentURL}`);
+      } else {
+        setFlag(uniqid());
       }
     } catch (err) {
       console.log(err);
