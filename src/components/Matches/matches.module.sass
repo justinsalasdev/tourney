@@ -1,38 +1,90 @@
+.matchesContainer
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
+    //background-color: white
+    width: 90%
+    margin-inline: auto 
+    & > a
+        margin: auto
+
+.main_roundsContainer
+    display: flex
+    justify-content: space-evenly
+    margin: auto
+    width: 100%
+
 .roundsContainer
     display: flex
     flex-direction: row
     justify-content: space-evenly
     align-content: center
-    width: 50%
+    //background-color: white
+    //margin: auto
+    width: 60%
 
 .roundDisplayContainer
     display: flex
     flex-direction: column
-    justify-content: left
-    //align-content: center
+    justify-content: center
+    align-content: center
     width: 100%
-
-.match
-    border: 1px solid black
-    padding: 1rem
-    margin: .5rem
-
-    &  button //descendant
-        font-size: 1.3rem
-        padding: .3rem
+    & > p
+        text-align: center
+        padding: .5rem
         color: white
-        background: #035397
-        margin: .2rem
-        cursor: pointer
+        font-weight: bold
+        font-family: Arial, Helvetica, sans-serif
+        letter-spacing: .1rem
+        background-color: #035397
+        box-shadow: -3px 3px 1px -2px (rgba(95, 85, 85, 0.2))
+        border-radius: .5rem
+        width: 98%
+        margin-bottom: auto
+.winnerContainer
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
+    width: 15%
+    //background-color: white
+    & > div
+        padding: 1rem
+        margin: auto
+        //border: 1px solid black
+        height: 16rem
+        width: 100%
+        border-radius: 50%
+        
+        background-color: #f3e9e944
+        box-shadow: -4px 3px 1px -2px (rgba(95, 85, 85, 0.2))
+    & p
+        text-align: center
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
 
-        &:hover
-            background: #5089C6
+    & h3
+        text-align: center
+        color: brown
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+        border-bottom: .5rem double brown
+        border-top: .5rem double brown
+        padding: 0
 
-.player
-    padding: .4rem
+    & h2
+        text-align: center
+        color: #035397
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+        border-bottom: .5rem double brown
+        border-top: .5rem double brown
+        padding: 0
 
-.winner
-    color: red
+.champion
+    background-image: url(https://assets.challonge.com/assets/icon-medal-first-9f45bab2a90d78bf720a8d196bf2dbbf260c4ba65a6e6a22c4e4c19813f7c9f2.svg)
+    background-size: 70%
+    background-repeat: no-repeat
+    background-position: center
 
-.loser
-    color: yellow
+.firstRunnerUp
+    background-image: url(https://assets.challonge.com/assets/icon-medal-second-db37f62deb0580bc0b59a95cb799e284012340d3225eb8c88c316482f872e98e.svg)
+    background-size: 70%
+    background-repeat: no-repeat
+    background-position: center

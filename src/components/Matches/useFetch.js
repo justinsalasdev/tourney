@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+//import {useFetch} from "../Tournament/useFetch"
 
 export default function useFetch(tournamentURL) {
   //this page will receive tournament Id
   const [isLoading, setisLoading] = useState(true);
+  //const [isMatchFinished, setMatchFinished] = useState(false);
   const [matchesShown, setmatchesShown] = useState([]);
   const [participantDetails, setParticipantDetails] = useState([]);
-
-  console.log(isLoading, matchesShown);
+  // const {tournament} = useFetch()
+  // console.log( tournament)
+  //console.log(isLoading, matchesShown);
   useEffect(() => {
     const api_key = "RBPOlPeuprbZYFGh5ZZzapjSlEiLElU8tUsQbumv";
     const url = `https://api.challonge.com/v2/tournaments/${tournamentURL}/matches.json`;
@@ -27,7 +30,7 @@ export default function useFetch(tournamentURL) {
       })
       .then((result) => {
         console.log("participants", result.included);
-
+        console.log(result)
         const details = { unknown: "TBA" }; //id: name
         for (let i = 0; i < result.included.length; i++) {
           const participant = result.included[i];
@@ -44,6 +47,22 @@ export default function useFetch(tournamentURL) {
         setisLoading(false);
       });
   }, []);
+  //console.log(matchesShown[matchesShown.length - 1]?.attributes?.winners)
+   // dito kukunin ko yung grand champion and first runner up
+   const grandChampId = matchesShown[matchesShown.length - 1]?.attributes?.winners?.toString() || null// id ng grand champ
+   const finalist1Id = matchesShown[matchesShown.length - 1]?.relationships?.player1?.data?.id || "TBA" // returns finalist 1 id in string
+   const finalist2Id = matchesShown[matchesShown.length - 1]?.relationships?.player2?.data?.id || "TBA"// returns finalist 2 id in string
+   let grandChamp ="" // name of grand champion
+   let firstRunnerUp = "" // name of 1st runnerUp
+   //matchesShown[matchesShown.length - 1]
+   if(grandChampId === finalist1Id){
+      grandChamp = participantDetails[finalist1Id]
+      firstRunnerUp = participantDetails[finalist2Id]
+   }
+   if(grandChampId === finalist2Id){
+     grandChamp = participantDetails[finalist2Id]
+     firstRunnerUp = participantDetails[finalist1Id]
+  }
 
   const firstRound = [];
   const secondRound = [];
@@ -82,5 +101,7 @@ export default function useFetch(tournamentURL) {
     thirdRound,
     participantDetails,
     roundNumber,
+    grandChamp,
+    firstRunnerUp
   };
 }

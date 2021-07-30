@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Match from "../Match/Match";
 import m from "./matches.module.sass";
 import useFetch from "./useFetch";
-import useWin from "./useWin";
+
 
 export default function Matches(props) {
   const tournamentURL = props.match.params.url;
@@ -13,36 +13,30 @@ export default function Matches(props) {
     roundNumber,
     isLoading,
     participantDetails,
+    grandChamp,
+    firstRunnerUp
   } = useFetch(tournamentURL);
   //useWIn(tournamentURL)
 
-  const { handleWin, isWinLoading } = useWin(tournamentURL);
+  //console.log(thirdRound, "third Round")
 
   if (isLoading) {
     return <div>...loading...</div>;
   }
-
   return (
-    <div>
+    <div className={m.matchesContainer}>
       {!isLoading && roundNumber === 1 && (
         <div className={m.roundsContainer}>
           {
             <div className={m.roundDisplayContainer}>
-              <p>Round 1</p>
-              {firstRound.map((match) => {
-                return (
-                  <div key={match.id}>
-                    <div>
-                      Match {match.attributes.identifier}
-                      <br />
-                      {match.attributes.scores}
-                      <br />
-                      Match Winner: {/* foundParticipant */}{" "}
-                      {/* displays winner per match */}
-                    </div>
-                  </div>
-                );
-              })}
+              <p>GRAND FINALS</p>
+              {firstRound.map((match) => (
+                <Match
+                match={match}
+                participantDetails={participantDetails}
+                tournamentURL={tournamentURL}
+              />
+              ))}
             </div>
           }
         </div>
@@ -52,100 +46,102 @@ export default function Matches(props) {
         <div className={m.roundsContainer}>
           {
             <div className={m.roundDisplayContainer}>
-              <p>Round 1</p>
-              {firstRound.map((matches) => {
-                return (
-                  <div key={matches.id}>
-                    <div>
-                      Match {matches.attributes.identifier}
-                      <br />
-                      {matches.attributes.scores}
-                      <br />
-                      Match Winner: {/* foundParticipant */}{" "}
-                      {/* displays winner per match */}
-                    </div>
-                  </div>
-                );
-              })}
+              <p>SEMI FINALS</p>
+              {firstRound.map((match) => {
+                const matchWinner = match.attributes?.winner || "none"
+                console.log("match winner", matchWinner)
+                return (<Match
+                  match={match}
+                  participantDetails={participantDetails}
+                  tournamentURL={tournamentURL}
+                />)
+            })}
+              
             </div>
           }
           {
             <div className={m.roundDisplayContainer}>
-              <p>Round 2</p>
-              {secondRound.map((matches) => {
-                return (
-                  <div>
-                    <div key={matches.id}>
-                      Match {matches.attributes.identifier}
-                      <br />
-                      {matches.attributes.scores}
-                      <br />
-                      Match Winner: {/* foundParticipant */}{" "}
-                      {/* displays winner per match */}
-                    </div>
-                  </div>
-                );
-              })}
+              <p>GRAND FINALS</p>
+              {secondRound.map((match) => (
+                <Match
+                match={match}
+                participantDetails={participantDetails}
+                tournamentURL={tournamentURL}
+              />
+              ))}
             </div>
           }
         </div>
       )}
 
       {!isLoading && roundNumber === 3 && (
-        <div className={m.roundsContainer}>
+        <div className={m.main_roundsContainer}>
+          <div className={m.roundsContainer}>
+            {
+              <div className={m.roundDisplayContainer} >
+                <p>ELIMINATION</p>
+                {firstRound.map((match) => {
+                  // let matchWinner = match.attributes?.winners || "none"
+                  // console.log(matchWinner)
+                  return (<Match
+                    match={match}
+                    participantDetails={participantDetails}
+                    tournamentURL={tournamentURL}
+                  />)
+                })}
+              </div>
+            }
+            {
+              <div className={m.roundDisplayContainer} >
+                <p>SEMI FINALS</p>
+                {secondRound.map((match) => (
+                  <Match
+                    match={match}
+                    participantDetails={participantDetails}
+                    tournamentURL={tournamentURL}
+                  />
+                ))}
+              </div>
+            }
+            {
+              <div className={m.roundDisplayContainer}>
+                <p>GRAND FINALS</p>
+                {thirdRound.map((match) => (
+                  <Match
+                    match={match}
+                    participantDetails={participantDetails}
+                    tournamentURL={tournamentURL}
+                  />
+                ))}
+              </div>
+            }
+          </div>
           {
-            <div className={m.roundDisplayContainer}>
-              <p>Round 1</p>
-              {firstRound.map((match) => (
-                <Match
-                  match={match}
-                  participantDetails={participantDetails}
-                  handleWin={handleWin}
-                  isWinLoading={isWinLoading}
-                />
-              ))}
+            
+          } 
+          <div className={m.winnerContainer}>
+            <div className={m.champion}>
             </div>
-          }
-          {
-            <div className={m.roundDisplayContainer}>
-              <p>Semi Finals</p>
-              {secondRound.map((match) => (
-                <Match
-                  match={match}
-                  participantDetails={participantDetails}
-                  handleWin={handleWin}
-                  isWinLoading={isWinLoading}
-                />
-              ))}
+            <>
+              <h2>{grandChamp.toUpperCase()}</h2>
+              <p>Grand Champion</p>
+            </>
+
+            <div className={m.firstRunnerUp}>
             </div>
-          }
-          {
-            <div className={m.roundDisplayContainer}>
-              <p>Grand Finals</p>
-              {thirdRound.map((match) => {
-                const player1Id =
-                  match.relationships?.player1?.data?.id || "unknown";
-                const player2Id =
-                  match.relationships?.player2?.data?.id || "unknown";
-                return (
-                  <div className={m.match}>
-                    <div key={match.id}>
-                      Match {match.attributes.identifier}
-                      <br />
-                      {match.attributes.scores}
-                      <br />
-                      <p>{participantDetails[player1Id]}</p>
-                      <p>{participantDetails[player2Id]}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          }
+            <>
+              <h3>{firstRunnerUp}</h3>
+              <p>First Runner Up </p>
+            </>
+          </div>
+
         </div>
       )}
+      {
+        
+      }
 
-      <Link to="/tournament">back to tournament</Link>
+      <Link to="/tournament"> back to tournament</Link>
     </div>
   );
 }
